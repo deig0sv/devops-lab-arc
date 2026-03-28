@@ -1,0 +1,34 @@
+name: Simulacion de pipeline
+
+on: 
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: arc-runner-set
+    steps:
+      - name: Revisando codigo
+        run: |
+          echo "Revisando sintaxis..."
+  test:
+    runs-on: arc-runner-set
+    needs: lint
+    steps:
+      - name: Ejecutando pruebas
+        run: |
+          echo "Corriendo tests unitarios..."
+  build:
+    runs-on: arc-runner-set
+    needs: test
+    steps:
+      - name: Compilacion
+        run: |
+          echo "Build exitoso" >> app-v1.txt
+      - name: Carga artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: mi-artefacto
+          path: app-v1.txt
