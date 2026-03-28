@@ -12,5 +12,6 @@ jobs:
           echo "✅ ARC está funcionando en mi máquina local"
           echo "Runner Name: $RUNNER_NAME"
           echo "OS: $(uname -a)"
+          sleep 30
           echo "Docker check:"
           docker --version || echo "Docker no está en el runner (normal por ahora)"
