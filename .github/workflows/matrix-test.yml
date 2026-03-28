@@ -1,0 +1,24 @@
+name: Prueba matrix
+on: 
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: arc-runner-set
+    steps:
+      - name: Revisando codigo
+        run: |
+          echo "Revisando sintaxis..."
+  test:
+    runs-on: arc-runner-set
+    needs: lint
+    strategy:
+      matrix:
+        node-version: [18, 20, 22]
+    steps:
+      - name: Ejecutando pruebas
+        run: |
+          echo "Probando mi app en Node version: ${{ matrix.node-version }}"
