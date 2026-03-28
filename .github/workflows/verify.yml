@@ -1,0 +1,16 @@
+name: Verify ARC Setup
+
+on:
+  workflow_dispatch: # Para lanzarlo manualmente
+
+jobs:
+  verify:
+    runs-on: arc-runner-set   # <--- ESTO ES CLAVE: debe coincidir con el nombre de tu Helm release
+    steps:
+      - name: Hello from ARC
+        run: |
+          echo "✅ ARC está funcionando en mi máquina local"
+          echo "Runner Name: $RUNNER_NAME"
+          echo "OS: $(uname -a)"
+          echo "Docker check:"
+          docker --version || echo "Docker no está en el runner (normal por ahora)"
