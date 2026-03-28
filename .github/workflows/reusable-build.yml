@@ -1,0 +1,31 @@
+name: Reusable Build
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: "Ambiente destino (staging/production)"
+        required: true
+        type: string
+    outputs:
+      build-version:
+        description: "Version del build generado"
+        value: ${{ jobs.build.outputs.version }}
+
+jobs:
+  build:
+    runs-on: arc-runner-set
+    outputs:
+      version: ${{ steps.set-version.outputs.version }}
+    steps:
+      - name: Generar version
+        id: set-version
+        run: |
+          VERSION="1.0.${{ github.run_number }}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Generando build version: $VERSION"
+
+      - name: Simular build
+        run: |
+          echo "Compilando para ambiente: ${{ inputs.environment }}"
+          echo "Build completado ✅"
