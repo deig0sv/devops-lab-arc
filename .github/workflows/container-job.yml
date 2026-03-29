@@ -1,0 +1,36 @@
+name: Job con Contenedor y Postgres
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  test-db:
+    runs-on: arc-runner-set
+    
+    # El job entero corre DENTRO de este contenedor
+    container:
+      image: python:3.10-slim
+
+    # Servicios auxiliares (Sidecars)
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: mysecretpassword
+        # Esperar a que postgres esté listo
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Instalar cliente de Postgres
+        run: |
+          apt-get update && apt-get install -y postgresql-client
+          
+      - name: Probar conexion a la DB
+        run: |
+          # El host del servicio es el nombre que le diste en 'services'
+          pg_isready -h postgres -p 5432 -U postgres
+          echo "✅ Conexion exitosa desde el contenedor de Python"
