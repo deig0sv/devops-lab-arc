@@ -1,0 +1,20 @@
+name: Test Composite Action
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  test-action:
+    runs-on: arc-runner-set
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Usar mi action local
+        id: my-action
+        uses: ./.github/actions/hello-world
+        with:
+          who-to-greet: "DevOps Engineer"
+
+      - name: Ver el output de la action
+        run: echo "El número aleatorio fue ${{ steps.my-action.outputs.random-number }}"
