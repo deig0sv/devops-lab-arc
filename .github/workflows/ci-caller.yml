@@ -1,0 +1,28 @@
+name: CI con Reusable Workflow
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: arc-runner-set
+    steps:
+      - name: Lint
+        run: echo "Revisando codigo..."
+
+  call-build:
+    needs: lint
+    uses: ./.github/workflows/reusable-build.yml
+    with:
+      environment: "staging"
+
+  post-build:
+    needs: call-build
+    runs-on: arc-runner-set
+    steps:
+      - name: Usar el output del build
+        run: |
+          echo "Version construida: ${{ needs.call-build.outputs.build-version }}"
