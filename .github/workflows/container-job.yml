@@ -1,4 +1,4 @@
-name: Job con Contenedor y Postgres
+name: Job con Contenedor y Postgres v2
 
 on: 
   workflow_dispatch:
