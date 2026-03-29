@@ -1,0 +1,29 @@
+name: 'Hello World Composite'
+description: 'Saluda y dice la hora'
+inputs:
+  who-to-greet:
+    description: 'A quién saludar'
+    required: true
+    default: 'Mundo'
+outputs:
+  random-number:
+    description: "Un número aleatorio generado"
+    value: ${{ steps.random-gen.outputs.number }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Saludar
+      shell: bash
+      run: echo "Hola ${{ inputs.who-to-greet }}!"
+
+    - name: Decir la hora
+      shell: bash
+      run: date
+
+    - name: Generar número
+      id: random-gen
+      shell: bash
+      run: |
+        NUM=$(( $RANDOM % 100 ))
+        echo "number=$NUM" >> $GITHUB_OUTPUT
