@@ -1,0 +1,28 @@
+name: Deploy with Approval
+
+on:
+  workflow_dispatch: # Lo lanzaremos manualmente para probar
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: arc-runner-set
+    steps:
+      - name: Compilando la App
+        run: |
+          echo "Generando artefactos..."
+          echo "v1.0.${{ github.run_number }}" > version.txt
+
+  deploy-prod:
+    needs: build
+    runs-on: arc-runner-set
+    # 🛡️ ESTA ES LA LÍNEA MÁGICA
+    environment: production
+    
+    steps:
+      - name: Desplegando en Producción
+        run: |
+          echo "🚀 Desplegando la versión oficial en el cluster de producción..."
+          echo "Finalizado con éxito ✅"
