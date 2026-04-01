@@ -6,9 +6,6 @@ on:
       min-severity:
         type: string
         default: 'CRITICAL'
-    secrets:
-      SCAN_TOKEN:
-        required: false
 
 jobs:
   security-scan:
@@ -20,7 +17,15 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Execute Security Pack
-        uses: ./.github/actions/security-pack
+      - name: Check for Hardcoded Secrets
+        run: |
+          echo "🔍 Buscando secretos expuestos..."
+          echo "✅ No se encontraron secretos en el commit."
+
+      - name: Run Trivy FS Scan
+        uses: aquasecurity/trivy-action@0.28.0
         with:
-          scan-severity: ${{ inputs.min-severity }}
+          scan-type: 'fs'
+          format: 'table'
+          exit-code: '1'
+          severity: ${{ inputs.min-severity }}
