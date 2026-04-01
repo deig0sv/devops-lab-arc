@@ -1,0 +1,26 @@
+name: Reusable Security Standard
+
+on:
+  workflow_call:
+    inputs:
+      min-severity:
+        type: string
+        default: 'CRITICAL'
+    secrets:
+      SCAN_TOKEN:
+        required: false
+
+jobs:
+  security-scan:
+    runs-on: arc-runner-set
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Execute Security Pack
+        uses: ./.github/actions/security-pack
+        with:
+          scan-severity: ${{ inputs.min-severity }}
