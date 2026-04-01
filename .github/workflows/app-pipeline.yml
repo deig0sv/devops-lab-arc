@@ -8,6 +8,10 @@ on:
 jobs:
   # Invocamos el estándar de seguridad centralizado
   security-compliance:
+    runs-on: arc-runner-set
+    permissions:
+      contents: read
+      security-events: write
     uses: ./.github/workflows/reusable-security.yml
     with:
       min-severity: 'HIGH,CRITICAL'
