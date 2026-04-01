@@ -25,7 +25,12 @@ jobs:
       - name: Run Trivy FS Scan
         uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1  # v0.35.0 - SAFE (post supply chain attack)
         with:
-          scan-type: 'fs'
+          # scan-type: 'fs'
+          # format: 'table'
+          # exit-code: '1'
+          # severity: ${{ inputs.min-severity }}
+          scan-type: 'config' # Cambiamos a 'config' para escanear el Dockerfile específicamente
+          hide-progress: false
           format: 'table'
           exit-code: '1'
-          severity: ${{ inputs.min-severity }}
+          severity: 'CRITICAL,HIGH'
