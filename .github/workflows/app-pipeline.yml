@@ -12,10 +12,12 @@ jobs:
     permissions:
       contents: read
       security-events: write
-    uses: ./.github/workflows/reusable-security.yml
-    with:
-      min-severity: 'HIGH,CRITICAL'
-    # secrets: inherit # Si necesitaras pasarle secretos de la organización
+    steps:
+      - name: scan
+        uses: ./.github/workflows/reusable-security.yml
+        with:
+          min-severity: 'HIGH,CRITICAL'
+        # secrets: inherit # Si necesitaras pasarle secretos de la organización
 
   # Solo si la seguridad pasa, procedemos al build
   build:
