@@ -5,6 +5,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  security-events: write # Permite que el hijo herede este permiso
+  
 jobs:
   # Invocamos el estándar de seguridad centralizado
   security-compliance:
