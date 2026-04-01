@@ -19,7 +19,7 @@ runs:
     - name: Run Trivy FS Scan
       uses: aquasecurity/trivy-action@0.28.0
       with:
-        scan-type: 'fs'
+        scan-type: 'fs' # Escanea el sistema de archivos (filesystem)
         format: 'table'
-        exit-code: '1' # Falla el pipeline si encuentra algo
+        exit-code: '1' # Falla el pipeline si encuentra vulnerabilidades
         severity: ${{ inputs.scan-severity }}
