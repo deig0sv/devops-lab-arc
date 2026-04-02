@@ -1,0 +1,12 @@
+name: Memory Limit Test
+on: workflow_dispatch
+
+jobs:
+  stress-memory:
+    runs-on: arc-runner-set
+    steps:
+      - name: Consume Memory
+        run: |
+          echo "Intentando consumir 1GB de RAM en un limite de 512MB..."
+          # Este comando de python crea una lista gigante para llenar la RAM
+          python3 -c "a = [1] * (10**8)"
