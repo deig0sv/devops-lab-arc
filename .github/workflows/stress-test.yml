@@ -1,0 +1,14 @@
+name: ARC Stress Test
+on: workflow_dispatch # Para que lo dispares manualmente desde la pestaña Actions
+
+jobs:
+  parallel-job:
+    runs-on: arc-runner-set
+    strategy:
+      matrix:
+        id: [1, 2, 3, 4, 5] # Esto lanzará 5 pods en paralelo
+    steps:
+      - name: Simulate Work
+        run: |
+          echo "Soy el pod numero ${{ matrix.id }}"
+          sleep 30 # Les damos tiempo para que los veas en Kubernetes
