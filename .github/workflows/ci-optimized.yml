@@ -1,0 +1,19 @@
+name: Optimized CI
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: arc-runner-set
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false # Solo estamos probando el build
+          cache-from: type=gha # Usamos el cache de GitHub Actions
+          cache-to: type=gha,mode=max
