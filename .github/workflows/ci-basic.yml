@@ -8,20 +8,20 @@ on:
 
 jobs:
   lint:
-    runs-on: arc-runner-set
+    runs-on: arc-org-runner-set
     steps:
       - name: Revisando codigo
         run: |
           echo "Revisando sintaxis..."
   test:
-    runs-on: arc-runner-set
+    runs-on: arc-org-runner-set
     needs: lint
     steps:
       - name: Ejecutando pruebas
         run: |
           echo "Corriendo tests unitarios..."
   build:
-    runs-on: arc-runner-set
+    runs-on: arc-org-runner-set
     needs: test
     steps:
       - name: Compilacion
