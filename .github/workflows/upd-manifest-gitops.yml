@@ -1,0 +1,31 @@
+name: Upd Manifest GitOps
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  
+jobs:
+  update-manifest:
+    runs-on: arc-org-runner-set
+    steps:
+      - name: Checkout GitOps Repo
+        run: |
+          # Clonamos el repo de manifiestos usando el PAT inyectado
+          git clone https://x-access-token:${{ env.GHA_PAT }}@github.com/${{ github.repository_owner }}/gitops-manifests.git
+          cd gitops-manifests
+          
+          # Simulamos actualizar un archivo de versión
+          echo "tag: ${{ github.sha }}" > image-tag.txt
+          
+          # Configuramos identidad de Git
+          git config user.name "ARC Automation"
+          git config user.email "arc@automation.com"
+          
+          # Hacemos push de la nueva versión
+          git add .
+          git commit -m "deploy: update image to ${{ github.sha }}"
+          git push
