@@ -15,7 +15,7 @@ jobs:
       - name: Checkout GitOps Repo
         run: |
           # Clonamos el repo de manifiestos usando el PAT inyectado
-          git clone https://x-access-token:${{ env.GHA_PAT }}@github.com/${{ github.repository_owner }}/gitops-manifests.git
+          git clone https://x-access-token:$GHA_PAT@github.com/${{ github.repository_owner }}/gitops-manifests.git
           cd gitops-manifests
           
           # Simulamos actualizar un archivo de versión
