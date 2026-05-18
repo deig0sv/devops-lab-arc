@@ -29,3 +29,15 @@ jobs:
           git add .
           git commit -m "deploy: update image to ${{ github.sha }}"
           git push
+      - name: Update Dev Overlay
+        if: github.ref == 'refs/heads/main'
+        run: |
+          cd gitops-manifests/overlays/dev
+          # Usamos kustomize para actualizar la imagen (es más limpio que sed)
+          kustomize edit set image my-python-app=ghcr.io/${{ github.repository }}:${{ github.sha }}
+          
+          git config --global user.name "ARC Automation"
+          git config --global user.email "arc@automation.com"
+          git add .
+          git commit -m "deploy(dev): update image to ${{ github.sha }}"
+          git push
