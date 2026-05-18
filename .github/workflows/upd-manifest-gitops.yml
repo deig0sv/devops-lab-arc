@@ -13,6 +13,8 @@ jobs:
     runs-on: arc-org-runner-set
     steps:
       - name: Checkout GitOps Repo
+        env:
+          GHA_PAT: ${{ secrets.GHA_PAT }}
         run: |
           # Clonamos el repo de manifiestos usando el PAT inyectado
           git clone https://x-access-token:$GHA_PAT@github.com/${{ github.repository_owner }}/gitops-manifests.git
